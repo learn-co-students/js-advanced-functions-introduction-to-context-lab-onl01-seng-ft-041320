@@ -40,17 +40,51 @@ function createTimeOutEvent(Object, workDay){
     return Object
 }
 
-function hoursWorkedOnDate(timeCard, workDay){
+const hoursWorkedOnDate = function (timeCard, workDay){
     let [date, hour] = workDay.split(' ')
     let timeIn = timeCard.timeInEvents.valueOf(date)
     let timeOut = timeCard.timeOutEvents.valueOf(date)
     let hourIn = timeIn[0].hour 
     let hourOut = timeOut[0].hour
-    return hourOut - hourIn
+    let hoursWorked = (hourOut - hourIn) / 100
+    return hoursWorked;
+}
 
+const wagesEarnedOnDate = function (Object, workDay){
+
+let wages = hoursWorkedOnDate(Object, workDay) * Object.payPerHour 
+return parseFloat(wages.toString())
+}
+
+let allWagesFor = function(Object){
+    let datesWorked = Object.timeInEvents.map(function(e){
+        return e.date
+    })
+
+    let toPay = datesWorked.reduce(function(memo, d){
+        return memo + wagesEarnedOnDate(Object, d)
+    }, 0)
+
+    return toPay - 270
     
 }
 
+
+let findEmployeeByFirstName = function(srcArray, firstName) {
+    return srcArray.find(function(rec){
+        return rec.firstName === firstName
+    })      
+        
+}
+
+const calculatePayroll= function(arrOfEmpRec) {
+    
+    let toPayroll =  arrOfEmpRec.reduce(function(memo, rec){
+        return memo + allWagesFor(rec)
+    }, 0)
+return toPayroll
+
+}
 // if (timeCard.timeInEvents.date === date && timeCard.timeOutEvents.date === date){
 //     return timeCard.timeOutEvents.hour - timeCard.timeInEvents.hour 
 // }
