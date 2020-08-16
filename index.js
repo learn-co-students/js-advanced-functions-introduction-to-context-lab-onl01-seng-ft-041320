@@ -44,8 +44,8 @@ function hoursWorkedOnDate(timeCard, workDay){
     let [date, hour] = workDay.split(' ')
     let timeIn = timeCard.timeInEvents.valueOf(date)
     let timeOut = timeCard.timeOutEvents.valueOf(date)
-    let hourIn = timeIn.hour 
-    let hourOut = timeOut.hour
+    let hourIn = timeIn[0].hour 
+    let hourOut = timeOut[0].hour
     return hourOut - hourIn
 
     
